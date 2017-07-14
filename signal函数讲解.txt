@@ -1,0 +1,53 @@
+signal(参数1，参数2):作用是为捕获某些信号调用对应的函数处理。
+
+#include<signal.h>
+
+typedef void (*sighandler_t)(int);
+
+sighandler_t signal(int signum, sighandler_t handler);
+
+=============================================================================================================================
+信号的种类：执行kill -l可以显示信号的种类
+
+ 1) SIGHUP	 	 2) SIGINT	 	 3) SIGQUIT		 4) SIGILL	 	 5) SIGTRAP
+ 6) SIGABRT	 	 7) SIGBUS	 	 8) SIGFPE	 	 9) SIGKILL		10) SIGUSR1
+11) SIGSEGV		12) SIGUSR2		13) SIGPIPE		14) SIGALRM		15) SIGTERM
+16) SIGSTKFLT	17) SIGCHLD		18) SIGCONT		19) SIGSTOP		20) SIGTSTP
+21) SIGTTIN		22) SIGTTOU		23) SIGURG		24) SIGXCPU		25) SIGXFSZ
+26) SIGVTALRM	27) SIGPROF		28) SIGWINCH	29) SIGIO		30) SIGPWR
+31) SIGSYS		34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3
+38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8
+43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13
+48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12
+53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7
+58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2
+63) SIGRTMAX-1	64) SIGRTMAX	
+
+=============================================================================================================================
+SIG_DFL,SIG_IGN 分别表示无返回值的函数指针，指针值分别是0和1，这两个指针值逻辑上讲是实际程序中不可能出现的函数地址值。
+SIG_DFL：默认信号处理程序
+SIG_IGN：忽略信号的处理程序
+
+
+=============================================================================================================================
+例程
+signal(SIGWINCH, SIG_IGN);//忽略窗口大小改变的信号
+
+int main(int argc , char *argv[])
+{
+	signal(SIGINT,SIG_IGN);
+	for(;;);
+	return 0;
+}
+按下CTRL _C程序没有反应。这就对了。如果我们想结束该程序可以按下CTRL +\来结束。其实当我们按下CTRL +\组合键时，是产生了SIGQUIT信号
+
+signal(SIGINT ,SIG_DFL );
+//SIGINT信号代表由InterruptKey产生，通常是CTRL +C或者是DELETE。发送给所有ForeGroundGroup的进程。 SIG_DFL代表执行系统默认操作，其实对于大多数信号的系统默认动作时终止该进程。这与不写此处理函数是一样的。
+
+int main(int argc , char *argv[])
+{
+	signal(SIGINT,SIG_DFL)
+	for(;;);
+	return 0;
+}
+这时就可以按下CTRL +C 来终止该进程了。把signal(SIGINT,SIG_DFL);这句去掉，效果是一样的。
