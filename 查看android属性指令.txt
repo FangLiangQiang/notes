@@ -1,0 +1,9 @@
+1.设置android属性指令
+adb shell setprop 属性名 值
+
+2.获取android属性值指令
+adb shell getprop 属性名
+
+3.获取所有的属性值指令
+adb shell
+getprop
