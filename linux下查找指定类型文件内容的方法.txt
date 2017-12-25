@@ -1,5 +1,5 @@
 在路径dir下递归搜索所有.c和.h类型文件包含有A字符串的文件
-1. find /dir -name "*.c" -or -name ".h" | xargs grep -i "A"
+1. find /dir -name "*.c" -or -name "*.h" | xargs grep -i "A"
 
 2.grep -i "A" --include=\*.{c,h} -r /dir
 -include表明需要grep哪类文件，-r表示递归搜索文件
