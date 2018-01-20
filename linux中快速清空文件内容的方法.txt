@@ -1,0 +1,7 @@
+这篇文章主要介绍了linux中快速清空文件内容的几种方法,需要的朋友可以参考下
+
+: > filename
+> filename
+echo "" > filename
+echo > filename
+cat /dev/null > filename
